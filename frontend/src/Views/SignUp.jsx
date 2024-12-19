@@ -43,13 +43,13 @@ const SignUp = () => {
       password: passwordRef.current.value,
       password_confirm: passwordConfirmRef.current.value,
     }
-    console.log(formData);
-    
+   
     axiosClient.post('/signup', formData).then(({data}) => {
+      console.log(data);
+      
       try {
-        console.log(data);
         
-       setToken(data.token);
+       setToken(data.staus);
       
 
       } catch (error) {

@@ -7,8 +7,8 @@ axiosClient.interceptors.request.use((request) => {
   
   
   let token = localStorage.getItem("Access_Token");
-  console.log({request});
   
+
   if (request) {
     request.headers.Authorization = `Bearer ${token}`;
     return request;
