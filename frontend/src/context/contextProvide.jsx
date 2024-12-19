@@ -8,7 +8,7 @@ let initialState = {
 let authState = createContext(initialState);
 
 function AuthProvider({ children }) {
-  let [token, _setToken] = useState(()=>localStorage.getItem("Access_Token"));
+  let [token, _setToken] = useState(localStorage.getItem("Access_Token")||"");
   let [user, setUser] = useState({});
 
   function setToken(newToken) {
