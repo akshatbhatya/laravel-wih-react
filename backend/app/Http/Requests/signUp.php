@@ -23,7 +23,8 @@ class signUp extends FormRequest
     {
         return [
             'name'=>'required|string',
-            'class'=>'required|string'
+            'email'=>'email|required|string',
+            'password'=>'|required|string'
         ];
     }
 }

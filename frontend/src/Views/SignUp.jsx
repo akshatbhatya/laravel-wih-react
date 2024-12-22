@@ -40,8 +40,7 @@ const SignUp = () => {
     let formData = {
       name: nameRef.current.value,
       email: emailRef.current.value,
-      password: passwordRef.current.value,
-      password_confirm: passwordConfirmRef.current.value,
+      password: passwordRef.current.value
     }
    
     axiosClient.post('/signup', formData).then(({data}) => {
@@ -53,13 +52,13 @@ const SignUp = () => {
       
 
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
 
       }
 
 
     }).catch((err) => {
-      console.log(err);
+      console.log(err?.response?.data?.errors);
 
     })
 
@@ -101,15 +100,7 @@ const SignUp = () => {
                 placeholder="••••••••"
                 required
               />
-              <InputField
-                ref={passwordConfirmRef}
-                label="Confirm Password"
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                placeholder="••••••••"
-                required
-              />
+           
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
