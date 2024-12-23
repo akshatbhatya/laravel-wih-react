@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../Views/axois-client.js";
 import React from "react";
 
-import {UseAuth,AuthProvider} from "../context/contextProvide.jsx"
+import { UseAuth, AuthProvider } from "../context/contextProvide.jsx"
+
 
 
 
@@ -27,14 +28,17 @@ const InputField = React.forwardRef(({ label, type, name, id, placeholder, requi
 
 const SignUp = () => {
 
- 
+
 
   let nameRef = useRef();
   let emailRef = useRef();
   let passwordRef = useRef();
   let passwordConfirmRef = useRef();
-  let {setToken,setUser}=UseAuth();
-     
+  let { setToken, setUser } = UseAuth();
+
+  let [errors, setErrors] = useState([]);
+
+
   function submitForm(e) {
     e.preventDefault();
     let formData = {
@@ -42,23 +46,19 @@ const SignUp = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value
     }
-   
-    axiosClient.post('/signup', formData).then(({data}) => {
-      console.log(data);
-      
-      try {
-        
-       setToken(data.staus);
-      
 
-      } catch (error) {
-        console.log(error.response);
-
+    axiosClient.post('/signup', formData).then(({ data }) => {
+      setToken(data.token);
+      if (data.token) {
+        setErrors([]);
+          nameRef.current.value="",
+          emailRef.current.value="",
+          passwordRef.current.value=""
       }
 
-
     }).catch((err) => {
-      console.log(err?.response?.data?.errors);
+      let all_errors = (err?.response?.data?.errors);
+      setErrors(all_errors);
 
     })
 
@@ -72,7 +72,23 @@ const SignUp = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Create your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#" onSubmit={submitForm}>
+            <form className="space-y-4 md:space-y-6" action="#" onSubmit={submitForm} id="signupForm">
+
+              {
+                errors &&
+                Object.keys(errors).map((err, indx) => {
+                  return (
+                    <>
+                      <p key={indx} style={{ color: 'red' }} >{errors[err][0]}</p>
+
+                    </>
+                  )
+
+
+                })
+              }
+
+
               <InputField
                 ref={nameRef}
                 label="Your name"
@@ -80,7 +96,7 @@ const SignUp = () => {
                 name="name"
                 id="name"
                 placeholder="John Doe"
-                required
+
               />
               <InputField
                 ref={emailRef}
@@ -89,7 +105,7 @@ const SignUp = () => {
                 name="email"
                 id="email"
                 placeholder="name@company.com"
-                required
+
               />
               <InputField
                 ref={passwordRef}
@@ -98,9 +114,9 @@ const SignUp = () => {
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                required
+
               />
-           
+
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
