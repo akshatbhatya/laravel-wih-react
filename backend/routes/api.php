@@ -9,3 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post("/signup",[Auth::class,"signUp"]);
+
+Route::post("/login",[Auth::class,"Login"]);

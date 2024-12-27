@@ -33,7 +33,6 @@ const SignUp = () => {
   let nameRef = useRef();
   let emailRef = useRef();
   let passwordRef = useRef();
-  let passwordConfirmRef = useRef();
   let { setToken, setUser } = UseAuth();
 
   let [errors, setErrors] = useState([]);
