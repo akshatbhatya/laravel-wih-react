@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HandleLoginRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Authenticate;
 use App\Http\utils\HandleResponseAndError;
 
@@ -48,6 +49,14 @@ class Auth extends Controller
             }
         } else {
           return $this->responses->handleErrorResponse(400, "Invalid Credentials");
+        }
+    }
+
+    public function logOutUser(Request $request){
+        
+        if(Authenticate::check()){
+            Authenticate::logout();
+            $this->responses->HandleResponse(200,"User Loged Out");
         }
     }
 }

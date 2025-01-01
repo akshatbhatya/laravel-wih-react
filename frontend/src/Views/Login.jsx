@@ -32,12 +32,12 @@ const Login = () => {
 
   function hitRequest(userData) {
     axiosClient.post('/login', userData).then(({ data }) => {
-      console.log(data);
+      // console.log(data.response);
       setErrors([]);
 
     }).catch((err) => {
-      console.log(err);
-      setErrors(err?.response?.data?.errors);
+      console.log(err.response.data);
+      setErrors(err?.response?.data.message);
 
     })
   }
@@ -50,6 +50,7 @@ const Login = () => {
     }
     if (userData.email && userData.password) {
       hitRequest(userData);
+      setErrors("");
     }
 
   }
@@ -65,9 +66,9 @@ const Login = () => {
             </h1>
             {
               errors &&
-              Object.keys(errors).map((error, index) => {
-                return <p key={index} className="text-sm text-red-500 dark:text-red-400">{errors[error][0]}</p>
-              })
+             
+                 <p  className="text-sm text-red-500 dark:text-red-400">{errors}</p>
+             
             }
 
             <form className="space-y-4 md:space-y-6" action="#" onSubmit={onSubmitForm}>
