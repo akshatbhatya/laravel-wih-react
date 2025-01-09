@@ -53,10 +53,11 @@ class Auth extends Controller
     }
 
     public function logOutUser(Request $request){
-        
-        if(Authenticate::check()){
-            Authenticate::logout();
-            $this->responses->HandleResponse(200,"User Loged Out");
-        }
+       $response= $request->user()->currentAccessToken()->delete();
+       if($response){
+              return $this->responses->HandleResponse(200,"User Logged Out Successfully");
+       }else{
+            return $this->responses->handleErrorResponse(400, "Error Logging Out User");
+       }
     }
 }
